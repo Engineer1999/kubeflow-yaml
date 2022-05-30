@@ -1,0 +1,5240 @@
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile","k8s-app":"kube-dns","kubernetes.io/cluster-service":"true","kubernetes.io/name":"CoreDNS"},"name":"coredns","namespace":"kube-system"},"spec":{"selector":{"matchLabels":{"k8s-app":"kube-dns"}},"strategy":{"rollingUpdate":{"maxSurge":"10%","maxUnavailable":0},"type":"RollingUpdate"},"template":{"metadata":{"annotations":{"scheduler.alpha.kubernetes.io/critical-pod":""},"labels":{"k8s-app":"kube-dns"}},"spec":{"containers":[{"args":["-conf","/etc/coredns/Corefile"],"image":"coredns/coredns:1.8.0","imagePullPolicy":"IfNotPresent","livenessProbe":{"failureThreshold":5,"httpGet":{"path":"/health","port":8080,"scheme":"HTTP"},"initialDelaySeconds":60,"successThreshold":1,"timeoutSeconds":5},"name":"coredns","ports":[{"containerPort":53,"name":"dns","protocol":"UDP"},{"containerPort":53,"name":"dns-tcp","protocol":"TCP"},{"containerPort":9153,"name":"metrics","protocol":"TCP"}],"readinessProbe":{"httpGet":{"path":"/ready","port":8181,"scheme":"HTTP"}},"resources":{"limits":{"memory":"170Mi"},"requests":{"cpu":"100m","memory":"70Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"add":["NET_BIND_SERVICE"],"drop":["all"]},"readOnlyRootFilesystem":true},"volumeMounts":[{"mountPath":"/etc/coredns","name":"config-volume","readOnly":true}]}],"dnsPolicy":"Default","priorityClassName":"system-cluster-critical","serviceAccountName":"coredns","tolerations":[{"key":"CriticalAddonsOnly","operator":"Exists"}],"volumes":[{"configMap":{"items":[{"key":"Corefile","path":"Corefile"}],"name":"coredns"},"name":"config-volume"}]}}}}
+    creationTimestamp: "2022-05-24T08:12:13Z"
+    generation: 1
+    labels:
+      addonmanager.kubernetes.io/mode: Reconcile
+      k8s-app: kube-dns
+      kubernetes.io/cluster-service: "true"
+      kubernetes.io/name: CoreDNS
+    name: coredns
+    namespace: kube-system
+    resourceVersion: "1276"
+    selfLink: /apis/apps/v1/namespaces/kube-system/deployments/coredns
+    uid: 90c15da9-26c3-4fa4-898c-249d8ebb74e5
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        k8s-app: kube-dns
+    strategy:
+      rollingUpdate:
+        maxSurge: 10%
+        maxUnavailable: 0
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          scheduler.alpha.kubernetes.io/critical-pod: ""
+        creationTimestamp: null
+        labels:
+          k8s-app: kube-dns
+      spec:
+        containers:
+        - args:
+          - -conf
+          - /etc/coredns/Corefile
+          image: coredns/coredns:1.8.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /health
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          name: coredns
+          ports:
+          - containerPort: 53
+            name: dns
+            protocol: UDP
+          - containerPort: 53
+            name: dns-tcp
+            protocol: TCP
+          - containerPort: 9153
+            name: metrics
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ready
+              port: 8181
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              memory: 170Mi
+            requests:
+              cpu: 100m
+              memory: 70Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              add:
+              - NET_BIND_SERVICE
+              drop:
+              - all
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/coredns
+            name: config-volume
+            readOnly: true
+        dnsPolicy: Default
+        priorityClassName: system-cluster-critical
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: coredns
+        serviceAccountName: coredns
+        terminationGracePeriodSeconds: 30
+        tolerations:
+        - key: CriticalAddonsOnly
+          operator: Exists
+        volumes:
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: Corefile
+              path: Corefile
+            name: coredns
+          name: config-volume
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-24T08:13:25Z"
+      lastUpdateTime: "2022-05-24T08:13:25Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-24T08:12:13Z"
+      lastUpdateTime: "2022-05-24T08:13:25Z"
+      message: ReplicaSet "coredns-7f9c69c78c" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"k8s-app":"hostpath-provisioner"},"name":"hostpath-provisioner","namespace":"kube-system"},"spec":{"replicas":1,"revisionHistoryLimit":0,"selector":{"matchLabels":{"k8s-app":"hostpath-provisioner"}},"template":{"metadata":{"labels":{"k8s-app":"hostpath-provisioner"}},"spec":{"containers":[{"env":[{"name":"NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"PV_DIR","value":"/var/snap/microk8s/common/default-storage"}],"image":"cdkbot/hostpath-provisioner:1.1.0","name":"hostpath-provisioner","volumeMounts":[{"mountPath":"/var/snap/microk8s/common/default-storage","name":"pv-volume"}]}],"serviceAccountName":"microk8s-hostpath","volumes":[{"hostPath":{"path":"/var/snap/microk8s/common/default-storage"},"name":"pv-volume"}]}}}}
+    creationTimestamp: "2022-05-24T08:12:23Z"
+    generation: 1
+    labels:
+      k8s-app: hostpath-provisioner
+    name: hostpath-provisioner
+    namespace: kube-system
+    resourceVersion: "491808"
+    selfLink: /apis/apps/v1/namespaces/kube-system/deployments/hostpath-provisioner
+    uid: 7513bad9-bfbb-4141-84a7-5a2fd3b910d9
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        k8s-app: hostpath-provisioner
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          k8s-app: hostpath-provisioner
+      spec:
+        containers:
+        - env:
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: PV_DIR
+            value: /var/snap/microk8s/common/default-storage
+          image: cdkbot/hostpath-provisioner:1.1.0
+          imagePullPolicy: IfNotPresent
+          name: hostpath-provisioner
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/snap/microk8s/common/default-storage
+            name: pv-volume
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: microk8s-hostpath
+        serviceAccountName: microk8s-hostpath
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - hostPath:
+            path: /var/snap/microk8s/common/default-storage
+            type: ""
+          name: pv-volume
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-24T08:13:26Z"
+      lastUpdateTime: "2022-05-24T08:13:39Z"
+      message: ReplicaSet "hostpath-provisioner-566686b959" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2022-05-27T11:45:47Z"
+      lastUpdateTime: "2022-05-27T11:45:47Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"k8s-app":"calico-kube-controllers"},"name":"calico-kube-controllers","namespace":"kube-system"},"spec":{"replicas":1,"selector":{"matchLabels":{"k8s-app":"calico-kube-controllers"}},"strategy":{"type":"Recreate"},"template":{"metadata":{"annotations":{"scheduler.alpha.kubernetes.io/critical-pod":""},"labels":{"k8s-app":"calico-kube-controllers"},"name":"calico-kube-controllers","namespace":"kube-system"},"spec":{"containers":[{"env":[{"name":"ENABLED_CONTROLLERS","value":"node"},{"name":"DATASTORE_TYPE","value":"kubernetes"}],"image":"calico/kube-controllers:v3.13.2","name":"calico-kube-controllers","readinessProbe":{"exec":{"command":["/usr/bin/check-status","-r"]}}}],"nodeSelector":{"kubernetes.io/os":"linux"},"priorityClassName":"system-cluster-critical","serviceAccountName":"calico-kube-controllers","tolerations":[{"key":"CriticalAddonsOnly","operator":"Exists"},{"effect":"NoSchedule","key":"node-role.kubernetes.io/master"}]}}}}
+    creationTimestamp: "2022-05-24T08:01:14Z"
+    generation: 1
+    labels:
+      k8s-app: calico-kube-controllers
+    name: calico-kube-controllers
+    namespace: kube-system
+    resourceVersion: "491984"
+    selfLink: /apis/apps/v1/namespaces/kube-system/deployments/calico-kube-controllers
+    uid: 4c42b3ef-f80d-4bd6-831c-c08f91793cd6
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        k8s-app: calico-kube-controllers
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        annotations:
+          scheduler.alpha.kubernetes.io/critical-pod: ""
+        creationTimestamp: null
+        labels:
+          k8s-app: calico-kube-controllers
+        name: calico-kube-controllers
+        namespace: kube-system
+      spec:
+        containers:
+        - env:
+          - name: ENABLED_CONTROLLERS
+            value: node
+          - name: DATASTORE_TYPE
+            value: kubernetes
+          image: calico/kube-controllers:v3.13.2
+          imagePullPolicy: IfNotPresent
+          name: calico-kube-controllers
+          readinessProbe:
+            exec:
+              command:
+              - /usr/bin/check-status
+              - -r
+            failureThreshold: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/os: linux
+        priorityClassName: system-cluster-critical
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: calico-kube-controllers
+        serviceAccountName: calico-kube-controllers
+        terminationGracePeriodSeconds: 30
+        tolerations:
+        - key: CriticalAddonsOnly
+          operator: Exists
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-24T08:01:17Z"
+      lastUpdateTime: "2022-05-24T08:02:27Z"
+      message: ReplicaSet "calico-kube-controllers-f7868dd95" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2022-05-27T11:48:01Z"
+      lastUpdateTime: "2022-05-27T11:48:01Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2022-05-30T05:02:47Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/managed-by: juju
+      model.juju.is/disable-webhook: "true"
+      operator.juju.is/name: modeloperator
+      operator.juju.is/target: model
+    name: modeloperator
+    namespace: controller-mlops-controller-1
+    resourceVersion: "915578"
+    selfLink: /apis/apps/v1/namespaces/controller-mlops-controller-1/deployments/modeloperator
+    uid: ddd4faf7-ea32-4a80-9554-f25a0cf13a82
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        operator.juju.is/name: modeloperator
+        operator.juju.is/target: model
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          model.juju.is/disable-webhook: "true"
+          operator.juju.is/name: modeloperator
+          operator.juju.is/target: model
+      spec:
+        automountServiceAccountToken: true
+        containers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            $JUJU_TOOLS_DIR/jujud model --model-uuid=31005810-16c5-4bd4-8901-08b0c6123681
+          command:
+          - /bin/sh
+          env:
+          - name: HTTP_PORT
+            value: "17071"
+          - name: SERVICE_NAME
+            value: modeloperator
+          - name: SERVICE_NAMESPACE
+            value: controller-mlops-controller-1
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-operator
+          ports:
+          - containerPort: 17071
+            name: api
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju/agents/model-31005810-16c5-4bd4-8901-08b0c6123681/template-agent.conf
+            name: modeloperator
+            subPath: template-agent.conf
+          workingDir: /var/lib/juju
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: modeloperator
+        serviceAccountName: modeloperator
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: modeloperator-agent.conf
+              path: template-agent.conf
+            name: modeloperator
+          name: modeloperator
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:02:50Z"
+      lastUpdateTime: "2022-05-30T05:02:50Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:02:47Z"
+      lastUpdateTime: "2022-05-30T05:02:50Z"
+      message: ReplicaSet "modeloperator-69b67ffc" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2022-05-30T05:03:37Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/managed-by: juju
+      model.juju.is/disable-webhook: "true"
+      operator.juju.is/name: modeloperator
+      operator.juju.is/target: model
+    name: modeloperator
+    namespace: kubeflow
+    resourceVersion: "915712"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/modeloperator
+    uid: 845dcd21-2358-4b8b-ae7b-9a525cdd9464
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        operator.juju.is/name: modeloperator
+        operator.juju.is/target: model
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          model.juju.is/disable-webhook: "true"
+          operator.juju.is/name: modeloperator
+          operator.juju.is/target: model
+      spec:
+        automountServiceAccountToken: true
+        containers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            $JUJU_TOOLS_DIR/jujud model --model-uuid=a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          command:
+          - /bin/sh
+          env:
+          - name: HTTP_PORT
+            value: "17071"
+          - name: SERVICE_NAME
+            value: modeloperator
+          - name: SERVICE_NAMESPACE
+            value: kubeflow
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-operator
+          ports:
+          - containerPort: 17071
+            name: api
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju/agents/model-a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd/template-agent.conf
+            name: modeloperator
+            subPath: template-agent.conf
+          workingDir: /var/lib/juju
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: modeloperator
+        serviceAccountName: modeloperator
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: modeloperator-agent.conf
+              path: template-agent.conf
+            name: modeloperator
+          name: modeloperator
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:03:41Z"
+      lastUpdateTime: "2022-05-30T05:03:41Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:03:37Z"
+      lastUpdateTime: "2022-05-30T05:03:41Z"
+      message: ReplicaSet "modeloperator-bdc6f9769" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: 8ac3efbb
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:22:20Z"
+    generation: 7
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: kfp-viz
+    name: kfp-viz
+    namespace: kubeflow
+    resourceVersion: "938351"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/kfp-viz
+    uid: d70f0357-bf5e-4dc9-bbf0-905a7afa6546
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: kfp-viz
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: kfp-viz-
+        labels:
+          app.kubernetes.io/name: kfp-viz
+      spec:
+        containers:
+        - image: registry.jujucharms.com/charm/c2o31yht1y825t6n49mwko4wyel0rracnrjn5/oci-image@sha256:13c46cf878062fd6ad672cbec4854eba7e869cd0123a8975bea49b9d75d4e698
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+              - wget
+              - -q
+              - -S
+              - -O
+              - '-'
+              - http://localhost:8888/
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: ml-pipeline-visualizationserver
+          ports:
+          - containerPort: 8888
+            name: http
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - wget
+              - -q
+              - -S
+              - -O
+              - '-'
+              - http://localhost:8888/
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: kfp-viz-ml-pipeline-visualizationserver-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+  status:
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:22:22Z"
+      lastUpdateTime: "2022-05-30T05:22:22Z"
+      message: Deployment does not have minimum availability.
+      reason: MinimumReplicasUnavailable
+      status: "False"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:32:27Z"
+      lastUpdateTime: "2022-05-30T05:32:27Z"
+      message: ReplicaSet "kfp-viz-65bc89cd9b" has timed out progressing.
+      reason: ProgressDeadlineExceeded
+      status: "False"
+      type: Progressing
+    observedGeneration: 7
+    replicas: 1
+    unavailableReplicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: c6a173f6
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:18:00Z"
+    generation: 9
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: kfp-schedwf
+    name: kfp-schedwf
+    namespace: kubeflow
+    resourceVersion: "938399"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/kfp-schedwf
+    uid: 942876ed-e8df-4128-a312-e90897b25e94
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: kfp-schedwf
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: kfp-schedwf-
+        labels:
+          app.kubernetes.io/name: kfp-schedwf
+      spec:
+        containers:
+        - env:
+          - name: CRON_SCHEDULE_TIMEZONE
+            value: UTC
+          - name: NAMESPACE
+          image: registry.jujucharms.com/charm/bmliwriin8zo1y7zzfcwxh51y1lmtn4i6llry/oci-image@sha256:34e7e9e5a65d80b73100df972151fda5defa3d54f8d183a67480d3bf0fb7e895
+          imagePullPolicy: IfNotPresent
+          name: ml-pipeline-scheduledworkflow
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: kfp-schedwf-ml-pipeline-scheduledworkflow-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: kfp-schedwf
+        serviceAccountName: kfp-schedwf
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:30:34Z"
+      lastUpdateTime: "2022-05-30T05:30:34Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:30:34Z"
+      lastUpdateTime: "2022-05-30T05:30:34Z"
+      message: ReplicaSet "kfp-schedwf-65b89f557b" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 9
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: c3fc10a3
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:12:24Z"
+    generation: 10
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: jupyter-controller
+    name: jupyter-controller
+    namespace: kubeflow
+    resourceVersion: "938423"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/jupyter-controller
+    uid: ac320a77-4b88-4e85-b2df-f12e078a7fdb
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: jupyter-controller
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: jupyter-controller-
+        labels:
+          app.kubernetes.io/name: jupyter-controller
+      spec:
+        containers:
+        - command:
+          - ./manager
+          env:
+          - name: ENABLE_CULLING
+            value: "true"
+          - name: ISTIO_GATEWAY
+            value: kubeflow/kubeflow-gateway
+          - name: USE_ISTIO
+            value: "true"
+          image: registry.jujucharms.com/charm/kaq3thscd44n4eitar0ng5vn41qku3s076d4l/oci-image@sha256:62a1ccf3c4fb2e943f9429a04a005b2338b8c67afe5e8acc92c14d51033e8037
+          imagePullPolicy: IfNotPresent
+          name: jupyter-controller
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: jupyter-controller-jupyter-controller-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: jupyter-controller
+        serviceAccountName: jupyter-controller
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:22:21Z"
+      lastUpdateTime: "2022-05-30T05:22:21Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:12:25Z"
+      lastUpdateTime: "2022-05-30T05:22:21Z"
+      message: ReplicaSet "jupyter-controller-7d858775ff" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 10
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: 5b10c771
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:27:15Z"
+    generation: 5
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: envoy
+    name: envoy
+    namespace: kubeflow
+    resourceVersion: "938427"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/envoy
+    uid: 0bf4524b-64fd-462b-9ecc-a330c950c2c8
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: envoy
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: envoy-
+        labels:
+          app.kubernetes.io/name: envoy
+      spec:
+        containers:
+        - args:
+          - /envoy/envoy.json
+          command:
+          - /usr/local/bin/envoy
+          - -c
+          image: registry.jujucharms.com/charm/c3jh1tja0aj8qdj21dodkderf10kmkbeboth3/oci-image@sha256:b4adee54f7754edefe0ad0d40ceefb4d72af2203e315aaca6f39b079c810fcf5
+          imagePullPolicy: IfNotPresent
+          name: envoy
+          ports:
+          - containerPort: 9901
+            name: admin
+            protocol: TCP
+          - containerPort: 9090
+            name: http
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+          - mountPath: /envoy
+            name: envoy-config-config
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: envoy-envoy-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: envoy.json
+              path: envoy.json
+            name: envoy-config-config
+          name: envoy-config-config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:58:00Z"
+      lastUpdateTime: "2022-05-30T05:58:00Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:58:00Z"
+      lastUpdateTime: "2022-05-30T05:58:00Z"
+      message: ReplicaSet "envoy-86f8c59d7d" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 5
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: a96502bb
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:34:26Z"
+    generation: 2
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: kfp-profile-controller
+    name: kfp-profile-controller
+    namespace: kubeflow
+    resourceVersion: "938439"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/kfp-profile-controller
+    uid: 7aa1ad3c-0c04-42e9-bdb3-9a19d88d0da4
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: kfp-profile-controller
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: kfp-profile-controller-
+        labels:
+          app.kubernetes.io/name: kfp-profile-controller
+      spec:
+        containers:
+        - args:
+          - /hooks/sync.py
+          command:
+          - python
+          env:
+          - name: CONTROLLER_PORT
+            value: "80"
+          - name: DISABLE_ISTIO_SIDECAR
+            value: "false"
+          - name: KFP_DEFAULT_PIPELINE_ROOT
+          - name: KFP_VERSION
+            value: 1.7.0-rc.3
+          - name: METADATA_GRPC_SERVICE_HOST
+            value: mlmd.kubeflow
+          - name: METADATA_GRPC_SERVICE_PORT
+            value: "8080"
+          - name: MINIO_ACCESS_KEY
+            value: minio
+          - name: MINIO_HOST
+            value: minio
+          - name: MINIO_NAMESPACE
+            value: kubeflow
+          - name: MINIO_PORT
+            value: "9000"
+          - name: MINIO_SECRET_KEY
+            value: SV25N7GCN6HAYV19M4GMHGX0YTZ840
+          image: registry.jujucharms.com/charm/gm1axzm8pxqlan75l3a7znu2mv5bf0pm1wfar/oci-image@sha256:14ec52252771f8fa904afbdac497c80fc3234d518b1e0bced0c810d5748a7347
+          imagePullPolicy: IfNotPresent
+          name: kubeflow-pipelines-profile-controller
+          ports:
+          - containerPort: 80
+            name: http
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+          - mountPath: /hooks
+            name: kubeflow-pipelines-profile-controller-code
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: kfp-profile-controller-kubeflow-pipelines-profile-controller-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: sync.py
+              path: sync.py
+            name: kubeflow-pipelines-profile-controller-code
+          name: kubeflow-pipelines-profile-controller-code
+  status:
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:34:26Z"
+      lastUpdateTime: "2022-05-30T05:34:26Z"
+      message: Deployment does not have minimum availability.
+      reason: MinimumReplicasUnavailable
+      status: "False"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:44:27Z"
+      lastUpdateTime: "2022-05-30T05:44:27Z"
+      message: ReplicaSet "kfp-profile-controller-68f554c765" has timed out progressing.
+      reason: ProgressDeadlineExceeded
+      status: "False"
+      type: Progressing
+    observedGeneration: 2
+    replicas: 1
+    unavailableReplicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: dc1aefd9
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:08:51Z"
+    generation: 11
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: argo-server
+    name: argo-server
+    namespace: kubeflow
+    resourceVersion: "938462"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/argo-server
+    uid: e10350b0-3dbe-4833-b993-5558ec50f755
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: argo-server
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: argo-server-
+        labels:
+          app.kubernetes.io/name: argo-server
+      spec:
+        containers:
+        - args:
+          - server
+          image: registry.jujucharms.com/charm/hs4bjttgix7e2kf3188j168vjafe2mfmr8m16/oci-image@sha256:2eb4a2066c03290e12d4202584b99fa020ed4c1dcb813c2f801ecb23a95bab05
+          imagePullPolicy: Always
+          name: argo-server
+          ports:
+          - containerPort: 2746
+            name: web
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 2746
+              scheme: HTTPS
+            initialDelaySeconds: 10
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            runAsNonRoot: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+          - mountPath: /tmp
+            name: tmp
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: argo-server-argo-server-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: argo-server
+        serviceAccountName: argo-server
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+        - emptyDir:
+            medium: Memory
+          name: tmp
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:27:36Z"
+      lastUpdateTime: "2022-05-30T05:27:36Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:27:36Z"
+      lastUpdateTime: "2022-05-30T05:27:36Z"
+      message: ReplicaSet "argo-server-77ffd64bdb" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 11
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: 564f46f9
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:17:53Z"
+    generation: 9
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: kfp-viewer
+    name: kfp-viewer
+    namespace: kubeflow
+    resourceVersion: "938478"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/kfp-viewer
+    uid: e4ac5e12-a468-450e-8b61-2618e8c163ba
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: kfp-viewer
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: kfp-viewer-
+        labels:
+          app.kubernetes.io/name: kfp-viewer
+      spec:
+        containers:
+        - env:
+          - name: MAX_NUM_VIEWERS
+            value: "50"
+          - name: MINIO_NAMESPACE
+            value: kubeflow
+          image: registry.jujucharms.com/charm/kk5db8k26h6fdltd2xcoudu3xsuslkihi4w18/oci-image@sha256:c208ebdb7599dd968f5e33e0dd982a59ed5efcfc5f857392c0b7f7bfd33aee08
+          imagePullPolicy: IfNotPresent
+          name: ml-pipeline-viewer-crd
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: kfp-viewer-ml-pipeline-viewer-crd-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: kfp-viewer
+        serviceAccountName: kfp-viewer
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:28:41Z"
+      lastUpdateTime: "2022-05-30T05:28:41Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:28:41Z"
+      lastUpdateTime: "2022-05-30T05:28:41Z"
+      message: ReplicaSet "kfp-viewer-7b775cb5c5" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 9
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: 8470248a
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:29:24Z"
+    generation: 4
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: tensorboards-web-app
+    name: tensorboards-web-app
+    namespace: kubeflow
+    resourceVersion: "938484"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/tensorboards-web-app
+    uid: 71a7daab-66f5-48c4-aba8-c53ae0b0fc16
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: tensorboards-web-app
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: tensorboards-web-app-
+        labels:
+          app.kubernetes.io/name: tensorboards-web-app
+      spec:
+        containers:
+        - env:
+          - name: APP_PREFIX
+            value: /tensorboards
+          - name: APP_SECURE_COOKIES
+            value: "False"
+          - name: BACKEND_MODE
+            value: development
+          - name: USERID_HEADER
+            value: kubeflow-userid
+          - name: USERID_PREFIX
+          image: registry.jujucharms.com/charm/degj4xf9nzft20x3gi4ucfjy0n3to6q2wzno8/oci-image@sha256:0c2babcf1c05f38b26680288e134c91a2ea9418b0aa2b949ada327f7b5de1f86
+          imagePullPolicy: IfNotPresent
+          name: tensorboards-web-app
+          ports:
+          - containerPort: 5000
+            name: http
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: tensorboards-web-app-tensorboards-web-app-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: tensorboards-web-app
+        serviceAccountName: tensorboards-web-app
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T06:09:49Z"
+      lastUpdateTime: "2022-05-30T06:09:49Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T06:09:49Z"
+      lastUpdateTime: "2022-05-30T06:09:49Z"
+      message: ReplicaSet "tensorboards-web-app-6458ddd86b" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 4
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: ae4fabe8
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:27:02Z"
+    generation: 5
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: tensorboard-controller
+    name: tensorboard-controller
+    namespace: kubeflow
+    resourceVersion: "938490"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/tensorboard-controller
+    uid: 8b3c1c2e-1178-432d-ab5d-5a465ceff995
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: tensorboard-controller
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: tensorboard-controller-
+        labels:
+          app.kubernetes.io/name: tensorboard-controller
+      spec:
+        containers:
+        - command:
+          - /manager
+          image: registry.jujucharms.com/charm/dwootibydwpwzemk0rcyds3edawdiyzq42ocx/oci-image@sha256:0f8c7de55f80af07d10b9465af21ed3332fba4a05077784ff22834bd6b22467d
+          imagePullPolicy: IfNotPresent
+          name: controller-manager
+          ports:
+          - containerPort: 9443
+            name: http
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: tensorboard-controller-controller-manager-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: tensorboard-controller
+        serviceAccountName: tensorboard-controller
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:55:42Z"
+      lastUpdateTime: "2022-05-30T05:55:42Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:55:42Z"
+      lastUpdateTime: "2022-05-30T05:55:42Z"
+      message: ReplicaSet "tensorboard-controller-6dfd947956" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 5
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: 3794f2ba
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:24:32Z"
+    generation: 6
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: kubeflow-volumes
+    name: kubeflow-volumes
+    namespace: kubeflow
+    resourceVersion: "938498"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/kubeflow-volumes
+    uid: 610b4c45-d7ff-40e8-ad90-f4c900b93571
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: kubeflow-volumes
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: kubeflow-volumes-
+        labels:
+          app.kubernetes.io/name: kubeflow-volumes
+      spec:
+        containers:
+        - env:
+          - name: APP_PREFIX
+            value: /volumes
+          - name: APP_SECURE_COOKIES
+            value: "false"
+          - name: BACKEND_MODE
+            value: development
+          - name: USERID_HEADER
+            value: kubeflow-userid
+          - name: USERID_PREFIX
+          image: registry.jujucharms.com/charm/6tvhkd5az86qo4m4zxeoqip1iejoxusiphggc/oci-image@sha256:fedee0ed496093fc72bf4a5fd11549d13224960c526235c0b23bb19186d053ae
+          imagePullPolicy: IfNotPresent
+          name: volumes-web-app
+          ports:
+          - containerPort: 5000
+            name: http
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: kubeflow-volumes-volumes-web-app-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: kubeflow-volumes
+        serviceAccountName: kubeflow-volumes
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:50:41Z"
+      lastUpdateTime: "2022-05-30T05:50:41Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:50:41Z"
+      lastUpdateTime: "2022-05-30T05:50:41Z"
+      message: ReplicaSet "kubeflow-volumes-77d98c67d8" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 6
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: c899baf9
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:22:39Z"
+    generation: 7
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: katib-db-manager
+    name: katib-db-manager
+    namespace: kubeflow
+    resourceVersion: "938532"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/katib-db-manager
+    uid: 3f79ba23-43e0-4182-bb58-ff1dee679cac
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: katib-db-manager
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: katib-db-manager-
+        labels:
+          app.kubernetes.io/name: katib-db-manager
+      spec:
+        containers:
+        - command:
+          - ./katib-db-manager
+          env:
+          - name: DB_NAME
+            value: mysql
+          - name: DB_PASSWORD
+            value: root
+          - name: DB_USER
+            value: root
+          - name: KATIB_MYSQL_DB_DATABASE
+            value: katib
+          - name: KATIB_MYSQL_DB_HOST
+            value: 10.152.183.107
+          - name: KATIB_MYSQL_DB_PORT
+            value: "3306"
+          image: registry.jujucharms.com/charm/5d9mqm3c0kne3mu523ca8oygc7bptv43ape2o/oci-image@sha256:bee4154f1ccc6fab0c57c8e0ff9c8ec8d7551ef72cf59ffca329427be5a84fb3
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+              - /bin/grpc_health_probe
+              - -addr=:6789
+            failureThreshold: 5
+            initialDelaySeconds: 10
+            periodSeconds: 60
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: katib-db-manager
+          ports:
+          - containerPort: 6789
+            name: api
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: katib-db-manager-katib-db-manager-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: katib-db-manager
+        serviceAccountName: katib-db-manager
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:38:09Z"
+      lastUpdateTime: "2022-05-30T05:38:09Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:38:09Z"
+      lastUpdateTime: "2022-05-30T05:38:09Z"
+      message: ReplicaSet "katib-db-manager-7c85b9b484" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 7
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: efe84bf2
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:24:31Z"
+    generation: 6
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: katib-ui
+    name: katib-ui
+    namespace: kubeflow
+    resourceVersion: "938537"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/katib-ui
+    uid: 6006f810-e6fb-4e9d-874c-b0e5eacb5d4e
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: katib-ui
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: katib-ui-
+        labels:
+          app.kubernetes.io/name: katib-ui
+      spec:
+        containers:
+        - args:
+          - --port=8080
+          command:
+          - ./katib-ui
+          env:
+          - name: KATIB_CORE_NAMESPACE
+            value: kubeflow
+          image: registry.jujucharms.com/charm/7856sw60z0qbmhucvxurviv23ddjs928qk5pv/oci-image@sha256:2183b124829cceccf946299fbae71bfbfb8011b98f1b9abfbb799cbab84b12b9
+          imagePullPolicy: IfNotPresent
+          name: katib-ui
+          ports:
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: katib-ui-katib-ui-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: katib-ui
+        serviceAccountName: katib-ui
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:48:22Z"
+      lastUpdateTime: "2022-05-30T05:48:22Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:48:22Z"
+      lastUpdateTime: "2022-05-30T05:48:22Z"
+      message: ReplicaSet "katib-ui-68ff9956f9" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 6
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: a0ef6d57
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:09:31Z"
+    generation: 10
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: admission-webhook
+    name: admission-webhook
+    namespace: kubeflow
+    resourceVersion: "938558"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/admission-webhook
+    uid: 9eea582d-1d0c-48bd-b7d9-dd68599d7719
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: admission-webhook
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: admission-webhook-
+        labels:
+          app.kubernetes.io/name: admission-webhook
+      spec:
+        containers:
+        - image: registry.jujucharms.com/charm/ktca4ipxj5dyg5s0cl1o0j2hy426j99t2uged/oci-image@sha256:fc124ea94f95fd6d53f00226b47438235e9e372b845e980c07dba5106f222ecf
+          imagePullPolicy: IfNotPresent
+          name: admission-webhook
+          ports:
+          - containerPort: 4443
+            name: webhook
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+          - mountPath: /etc/webhook/certs
+            name: admission-webhook-certs-config
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: admission-webhook-admission-webhook-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: admission-webhook
+        serviceAccountName: admission-webhook
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: cert.pem
+              path: cert.pem
+            - key: key.pem
+              path: key.pem
+            name: admission-webhook-certs-config
+          name: admission-webhook-certs-config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:14:34Z"
+      lastUpdateTime: "2022-05-30T05:14:34Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:09:32Z"
+      lastUpdateTime: "2022-05-30T05:14:34Z"
+      message: ReplicaSet "admission-webhook-555c679656" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 10
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: cef390eb
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:24:29Z"
+    generation: 6
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: kubeflow-dashboard
+    name: kubeflow-dashboard
+    namespace: kubeflow
+    resourceVersion: "938562"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/kubeflow-dashboard
+    uid: 7d6cf08e-680f-4ba7-a13f-ea9f441d558b
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: kubeflow-dashboard
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: kubeflow-dashboard-
+        labels:
+          app.kubernetes.io/name: kubeflow-dashboard
+      spec:
+        containers:
+        - env:
+          - name: DASHBOARD_LINKS_CONFIGMAP
+            value: centraldashboard-config
+          - name: PROFILES_KFAM_SERVICE_HOST
+            value: kubeflow-profiles.kubeflow
+          - name: REGISTRATION_FLOW
+            value: "true"
+          - name: USERID_HEADER
+            value: kubeflow-userid
+          - name: USERID_PREFIX
+          image: registry.jujucharms.com/charm/9v3a03987ttaome2dyty2bsbs8uswxn3jpdow/oci-image@sha256:858a90f6df0581b681b8e26664fc7e090ef668079fec23eb57273f8dc4084632
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 8082
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: kubeflow-dashboard
+          ports:
+          - containerPort: 8082
+            name: ui
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: kubeflow-dashboard-kubeflow-dashboard-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: kubeflow-dashboard
+        serviceAccountName: kubeflow-dashboard
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:46:35Z"
+      lastUpdateTime: "2022-05-30T05:46:35Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:46:35Z"
+      lastUpdateTime: "2022-05-30T05:46:35Z"
+      message: ReplicaSet "kubeflow-dashboard-858cbc47b7" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 6
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: e13fabda
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:24:15Z"
+    generation: 6
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: seldon-controller-manager
+    name: seldon-controller-manager
+    namespace: kubeflow
+    resourceVersion: "938581"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/seldon-controller-manager
+    uid: fdf0f8c5-373b-414c-8664-1ec8e12750b4
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: seldon-controller-manager
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: seldon-controller-manager-
+        labels:
+          app.kubernetes.io/name: seldon-controller-manager
+      spec:
+        containers:
+        - args:
+          - --enable-leader-election
+          - --webhook-port
+          - "4443"
+          - --create-resources
+          - "true"
+          command:
+          - /manager
+          env:
+          - name: AMBASSADOR_ENABLED
+            value: "false"
+          - name: AMBASSADOR_SINGLE_NAMESPACE
+            value: "false"
+          - name: CONTROLLER_ID
+          - name: DEFAULT_USER_ID
+          - name: ENGINE_CONTAINER_IMAGE_AND_VERSION
+            value: docker.io/seldonio/engine:1.6.0
+          - name: ENGINE_CONTAINER_IMAGE_PULL_POLICY
+            value: IfNotPresent
+          - name: ENGINE_CONTAINER_SERVICE_ACCOUNT_NAME
+            value: default
+          - name: ENGINE_CONTAINER_USER
+            value: "8888"
+          - name: ENGINE_DEFAULT_CPU_LIMIT
+            value: "0.5"
+          - name: ENGINE_DEFAULT_CPU_REQUEST
+            value: "0.5"
+          - name: ENGINE_DEFAULT_MEMORY_LIMIT
+            value: 512Mi
+          - name: ENGINE_DEFAULT_MEMORY_REQUEST
+            value: 512Mi
+          - name: ENGINE_LOG_MESSAGES_EXTERNALLY
+            value: "false"
+          - name: ENGINE_PROMETHEUS_PATH
+            value: /prometheus
+          - name: ENGINE_SERVER_GRPC_PORT
+            value: "5001"
+          - name: ENGINE_SERVER_PORT
+            value: "8000"
+          - name: EXECUTOR_CONTAINER_IMAGE_AND_VERSION
+            value: docker.io/seldonio/seldon-core-executor:1.6.0
+          - name: EXECUTOR_CONTAINER_IMAGE_PULL_POLICY
+            value: IfNotPresent
+          - name: EXECUTOR_CONTAINER_SERVICE_ACCOUNT_NAME
+            value: default
+          - name: EXECUTOR_CONTAINER_USER
+            value: "8888"
+          - name: EXECUTOR_DEFAULT_CPU_LIMIT
+            value: "0.5"
+          - name: EXECUTOR_DEFAULT_CPU_REQUEST
+            value: "0.5"
+          - name: EXECUTOR_DEFAULT_MEMORY_LIMIT
+            value: 512Mi
+          - name: EXECUTOR_DEFAULT_MEMORY_REQUEST
+            value: 512Mi
+          - name: EXECUTOR_PROMETHEUS_PATH
+            value: /prometheus
+          - name: EXECUTOR_REQUEST_LOGGER_DEFAULT_ENDPOINT
+            value: http://default-broker
+          - name: EXECUTOR_SERVER_METRICS_PORT_NAME
+            value: metrics
+          - name: EXECUTOR_SERVER_PORT
+            value: "8000"
+          - name: ISTIO_ENABLED
+            value: "false"
+          - name: ISTIO_GATEWAY
+            value: istio-system/seldon-gateway
+          - name: ISTIO_TLS_MODE
+          - name: KEDA_ENABLED
+            value: "false"
+          - name: MANAGER_CREATE_RESOURCES
+            value: "true"
+          - name: POD_NAMESPACE
+            value: kubeflow
+          - name: PREDICTIVE_UNIT_DEFAULT_ENV_SECRET_REF_NAME
+          - name: PREDICTIVE_UNIT_METRICS_PORT_NAME
+            value: metrics
+          - name: PREDICTIVE_UNIT_SERVICE_PORT
+            value: "9000"
+          - name: RELATED_IMAGE_ENGINE
+          - name: RELATED_IMAGE_EXECUTOR
+          - name: RELATED_IMAGE_EXPLAINER
+          - name: RELATED_IMAGE_MLFLOWSERVER
+          - name: RELATED_IMAGE_MOCK_CLASSIFIER
+          - name: RELATED_IMAGE_SKLEARNSERVER
+          - name: RELATED_IMAGE_STORAGE_INITIALIZER
+          - name: RELATED_IMAGE_TENSORFLOW
+          - name: RELATED_IMAGE_TFPROXY
+          - name: RELATED_IMAGE_XGBOOSTSERVER
+          - name: USE_EXECUTOR
+            value: "true"
+          - name: WATCH_NAMESPACE
+          image: registry.jujucharms.com/charm/c5e3s519ko1quc9tqnysy92oeeqmgvwvhxvgf/oci-image@sha256:047f2fc1a8adfd72871af0f0c5cf92c9297536180293d413fba93d5a411aa96d
+          imagePullPolicy: IfNotPresent
+          name: seldon-core
+          ports:
+          - containerPort: 8080
+            name: metrics
+            protocol: TCP
+          - containerPort: 4443
+            name: webhook
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+          - mountPath: /tmp/operator-resources
+            name: seldon-controller-manager-operator-resources-config
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: seldon-controller-manager-seldon-core-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: seldon-controller-manager
+        serviceAccountName: seldon-controller-manager
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: configmap.yaml
+              path: configmap.yaml
+            - key: crd.yaml
+              path: crd.yaml
+            - key: service.yaml
+              path: service.yaml
+            - key: validate.yaml
+              path: validate.yaml
+            name: seldon-controller-manager-operator-resources-config
+          name: seldon-controller-manager-operator-resources-config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:42:46Z"
+      lastUpdateTime: "2022-05-30T05:42:46Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:42:46Z"
+      lastUpdateTime: "2022-05-30T05:42:46Z"
+      message: ReplicaSet "seldon-controller-manager-5f495894db" has successfully
+        progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 6
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: d43d28fb
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "6"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:12:42Z"
+    generation: 15
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: dex-auth
+    name: dex-auth
+    namespace: kubeflow
+    resourceVersion: "938606"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/dex-auth
+    uid: 31ae5971-6eea-420a-bed0-8ea0a941b81c
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: dex-auth
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: dex-auth-
+        labels:
+          app.kubernetes.io/name: dex-auth
+      spec:
+        containers:
+        - command:
+          - dex
+          - serve
+          - /etc/dex/cfg/config.yaml
+          env:
+          - name: CONFIG_HASH
+            value: 683635dc380d4a0027efce8557644baecc3913c3b36742ebae01b391f2b1144f
+          - name: KUBERNETES_POD_NAMESPACE
+            value: kubeflow
+          image: registry.jujucharms.com/charm/ifcdyx9vak68zhfu0neisg91lfpdfxz2qmx41/oci-image@sha256:a74f7834d8c16dbc53952abf2b4661c201963ad343656bcb4a431a772fb7a7c3
+          imagePullPolicy: IfNotPresent
+          name: dex-auth
+          ports:
+          - containerPort: 5556
+            name: http
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+          - mountPath: /etc/dex/cfg
+            name: dex-auth-config-config
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: dex-auth-dex-auth-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: dex-auth
+        serviceAccountName: dex-auth
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: config.yaml
+              path: config.yaml
+            name: dex-auth-config-config
+          name: dex-auth-config-config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T07:04:32Z"
+      lastUpdateTime: "2022-05-30T07:04:32Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:25:55Z"
+      lastUpdateTime: "2022-05-30T07:04:37Z"
+      message: ReplicaSet "dex-auth-6b6b86c647" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 15
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: 50fe7cfd
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:27:45Z"
+    generation: 5
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: argo-controller
+    name: argo-controller
+    namespace: kubeflow
+    resourceVersion: "938607"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/argo-controller
+    uid: 56649d87-6c25-4b18-ba3e-3b2351ff24cf
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: argo-controller
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 1
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: argo-controller-
+        labels:
+          app.kubernetes.io/name: argo-controller
+      spec:
+        containers:
+        - args:
+          - --configmap
+          - argo-controller-configmap-config
+          - --executor-image
+          - argoproj/argoexec:v3.1.8
+          env:
+          - name: ARGO_NAMESPACE
+            value: kubeflow
+          - name: LEADER_ELECTION_IDENTITY
+            value: argo-controller
+          image: registry.jujucharms.com/charm/evuh9usc9rqbwxwj0i9lkkjpzs1dwy053isqa/oci-image@sha256:0eec3c14f3d908ce7bf6fcad49f4883a756786da9e7c8c70f24b270ffba16946
+          imagePullPolicy: Always
+          name: argo-controller
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+          - mountPath: /config-map.yaml
+            name: argo-controller-configmap-config
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: argo-controller-argo-controller-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: argo-controller
+        serviceAccountName: argo-controller
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: config
+              path: config
+            name: argo-controller-configmap-config
+          name: argo-controller-configmap-config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:27:47Z"
+      lastUpdateTime: "2022-05-30T05:27:47Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T06:04:36Z"
+      lastUpdateTime: "2022-05-30T06:04:36Z"
+      message: ReplicaSet "argo-controller-749fb58cdf" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 5
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: 03d60309
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:27:57Z"
+    generation: 5
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: kfp-ui
+    name: kfp-ui
+    namespace: kubeflow
+    resourceVersion: "938608"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/kfp-ui
+    uid: 2206fcf8-686e-4f36-b7ba-5fb94021a5a2
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: kfp-ui
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: kfp-ui-
+        labels:
+          app.kubernetes.io/name: kfp-ui
+      spec:
+        containers:
+        - env:
+          - name: ALLOW_CUSTOM_VISUALIZATIONS
+            value: "true"
+          - name: ARGO_ARCHIVE_ARTIFACTORY
+            value: minio
+          - name: ARGO_ARCHIVE_BUCKETNAME
+            value: mlpipeline
+          - name: ARGO_ARCHIVE_LOGS
+            value: "false"
+          - name: ARGO_ARCHIVE_PREFIX
+            value: logs
+          - name: ARTIFACTS_SERVICE_PROXY_ENABLED
+            value: "true"
+          - name: ARTIFACTS_SERVICE_PROXY_NAME
+            value: ml-pipeline-ui-artifact
+          - name: ARTIFACTS_SERVICE_PROXY_PORT
+            value: "80"
+          - name: AWS_ACCESS_KEY_ID
+          - name: AWS_SECRET_ACCESS_KEY
+          - name: DEPLOYMENT
+            value: KUBEFLOW
+          - name: DISABLE_GKE_METADATA
+            value: "false"
+          - name: ENABLE_AUTHZ
+            value: "true"
+          - name: HIDE_SIDENAV
+            value: "true"
+          - name: HTTP_AUTHORIZATION_DEFAULT_VALUE
+          - name: HTTP_AUTHORIZATION_KEY
+          - name: HTTP_BASE_URL
+          - name: KUBEFLOW_USERID_HEADER
+            value: kubeflow-userid
+          - name: KUBEFLOW_USERID_PREFIX
+          - name: METADATA_ENVOY_SERVICE_SERVICE_HOST
+            value: localhost
+          - name: METADATA_ENVOY_SERVICE_SERVICE_PORT
+            value: "9090"
+          - name: MINIO_ACCESS_KEY
+            value: minio
+          - name: MINIO_HOST
+            value: minio
+          - name: MINIO_NAMESPACE
+            value: kubeflow
+          - name: MINIO_PORT
+            value: "9000"
+          - name: MINIO_SECRET_KEY
+            value: SV25N7GCN6HAYV19M4GMHGX0YTZ840
+          - name: MINIO_SSL
+            value: "false"
+          - name: ML_PIPELINE_SERVICE_HOST
+            value: kfp-api.kubeflow
+          - name: ML_PIPELINE_SERVICE_PORT
+            value: "8888"
+          - name: STREAM_LOGS_FROM_SERVER_API
+            value: "false"
+          - name: VIEWER_TENSORBOARD_POD_TEMPLATE_SPEC_PATH
+            value: /etc/config/viewer-pod-template.json
+          - name: VIEWER_TENSORBOARD_TF_IMAGE_NAME
+            value: tensorflow/tensorflow
+          image: registry.jujucharms.com/charm/3fs6abrv95ts1n20tdw7irqnkfawe3pmtnzrc/oci-image@sha256:b67a29cd66cc88c7c16883005757ab6886d7172d3476f85270cb77fe068c9c43
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+              - wget
+              - -q
+              - -S
+              - -O
+              - '-'
+              - http://localhost:3000/apis/v1beta1/healthz
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: ml-pipeline-ui
+          ports:
+          - containerPort: 3000
+            name: http
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - wget
+              - -q
+              - -S
+              - -O
+              - '-'
+              - http://localhost:3000/apis/v1beta1/healthz
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+          - mountPath: /config
+            name: kfp-ui-config-config
+          - mountPath: /etc/config
+            name: kfp-ui-viewer-pod-template-config
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: kfp-ui-ml-pipeline-ui-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: kfp-ui
+        serviceAccountName: kfp-ui
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: config.json
+              path: config.json
+            name: kfp-ui-config-config
+          name: kfp-ui-config-config
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: viewer-pod-template.json
+              path: viewer-pod-template.json
+            name: kfp-ui-viewer-pod-template-config
+          name: kfp-ui-viewer-pod-template-config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T06:08:40Z"
+      lastUpdateTime: "2022-05-30T06:08:40Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T06:08:40Z"
+      lastUpdateTime: "2022-05-30T06:08:40Z"
+      message: ReplicaSet "kfp-ui-79764c59bc" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 5
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: 554ad2d4
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:40:36Z"
+    generation: 2
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: istio-ingressgateway
+    name: istio-ingressgateway
+    namespace: kubeflow
+    resourceVersion: "938625"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/istio-ingressgateway
+    uid: 3ac21522-0995-4053-b6ae-fa393c9d64fa
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: istio-ingressgateway
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: istio-ingressgateway-
+        labels:
+          app.kubernetes.io/name: istio-ingressgateway
+      spec:
+        containers:
+        - args:
+          - proxy
+          - router
+          - --domain
+          - kubeflow.svc.cluster.local
+          - --proxyLogLevel=warning
+          - --proxyComponentLogLevel=misc:error
+          - --log_output_level=default:info
+          - --drainDuration
+          - 45s
+          - --parentShutdownDuration
+          - 1m0s
+          - --connectTimeout
+          - 10s
+          - --serviceCluster
+          - istio-ingressgateway
+          - --proxyAdminPort
+          - "15000"
+          - --statusPort
+          - "15020"
+          - --controlPlaneAuthPolicy
+          - NONE
+          - --discoveryAddress
+          - istio-pilot.kubeflow.svc:15012
+          - --trust-domain=cluster.local
+          env:
+          - name: CA_ADDR
+            value: istio-pilot.kubeflow.svc:15012
+          - name: HOST_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.hostIP
+          - name: INSTANCE_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          - name: ISTIO_AUTO_MTLS_ENABLED
+            value: "true"
+          - name: ISTIO_META_CLUSTER_ID
+            value: Kubernetes
+          - name: ISTIO_META_CONFIG_NAMESPACE
+            value: kubeflow
+          - name: ISTIO_META_MESH_ID
+            value: cluster.local
+          - name: ISTIO_META_OWNER
+            value: kubernetes://api/apps/v1/namespaces/kubeflow/deployments/istio-ingressgateway
+          - name: ISTIO_META_POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: ISTIO_META_ROUTER_MODE
+            value: sni-dnat
+          - name: ISTIO_META_USER_SDS
+            value: "true"
+          - name: ISTIO_META_WORKLOAD_NAME
+            value: istio-ingressgateway
+          - name: JWT_POLICY
+            value: first-party-jwt
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: PILOT_CERT_PROVIDER
+            value: istiod
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            value: istio-ingressgateway
+          - name: SERVICE_ACCOUNT
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.serviceAccountName
+          image: registry.jujucharms.com/charm/84mdawrnvjmniu24rj7u0tr0nn3m951n696og/oci-image@sha256:aae58cf91f579258b5c49f633c03abb55573c5ec8111bb109ee2debd2a85ca3f
+          imagePullPolicy: IfNotPresent
+          name: istio-proxy
+          ports:
+          - containerPort: 15020
+            name: status-port
+            protocol: TCP
+          - containerPort: 80
+            name: http2
+            protocol: TCP
+          - containerPort: 443
+            name: https
+            protocol: TCP
+          - containerPort: 15029
+            name: kiali
+            protocol: TCP
+          - containerPort: 15030
+            name: prometheus
+            protocol: TCP
+          - containerPort: 15031
+            name: grafana
+            protocol: TCP
+          - containerPort: 15032
+            name: tracing
+            protocol: TCP
+          - containerPort: 15443
+            name: tls
+            protocol: TCP
+          - containerPort: 15011
+            name: pilot
+            protocol: TCP
+          - containerPort: 8060
+            name: citadel
+            protocol: TCP
+          - containerPort: 853
+            name: dns-tls
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 30
+            httpGet:
+              path: /healthz/ready
+              port: 15020
+              scheme: HTTP
+            initialDelaySeconds: 1
+            periodSeconds: 2
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+          - mountPath: /var/run/secrets/istio
+            name: istio-ingressgateway-istiod-ca-cert-config
+          - mountPath: /var/run/ingress_gateway
+            name: ingressgatewaysdsudspath
+          - mountPath: /etc/istio/pod
+            name: istio-ingressgateway-podinfo-config
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: istio-ingressgateway-istio-proxy-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: istio-ingressgateway
+        serviceAccountName: istio-ingressgateway
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: root-cert.pem
+              path: root-cert.pem
+            name: istio-ingressgateway-istiod-ca-cert-config
+          name: istio-ingressgateway-istiod-ca-cert-config
+        - emptyDir:
+            medium: Memory
+          name: ingressgatewaysdsudspath
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: annotations
+              path: annotations
+            - key: labels
+              path: labels
+            name: istio-ingressgateway-podinfo-config
+          name: istio-ingressgateway-podinfo-config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T06:17:13Z"
+      lastUpdateTime: "2022-05-30T06:17:13Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T06:17:13Z"
+      lastUpdateTime: "2022-05-30T06:17:13Z"
+      message: ReplicaSet "istio-ingressgateway-6bd7796474" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: a935c2f7
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:24:22Z"
+    generation: 6
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: jupyter-ui
+    name: jupyter-ui
+    namespace: kubeflow
+    resourceVersion: "938630"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/jupyter-ui
+    uid: c1cbe06d-e5bd-4238-becb-a8f61decfa45
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: jupyter-ui
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: jupyter-ui-
+        labels:
+          app.kubernetes.io/name: jupyter-ui
+      spec:
+        containers:
+        - env:
+          - name: APP_PREFIX
+            value: /jupyter
+          - name: APP_SECURE_COOKIES
+            value: "False"
+          - name: BACKEND_MODE
+            value: development
+          - name: CLUSTER_DOMAIN
+            value: cluster.local
+          - name: UI
+            value: default
+          - name: USERID_HEADER
+            value: kubeflow-userid
+          - name: USERID_PREFIX
+          image: registry.jujucharms.com/charm/9lw7s63ewtlyew486jjn1ez4fe2mh813xni8f/oci-image@sha256:5536a2da977f5d6d10d3c21296e1cc83aa4e7bddc9cd42616cb700a4f31e89ed
+          imagePullPolicy: IfNotPresent
+          name: jupyter-ui
+          ports:
+          - containerPort: 5000
+            name: http
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+          - mountPath: /etc/config
+            name: jupyter-ui-config-config
+          - mountPath: /src/apps/default/static/assets/logos
+            name: jupyter-ui-logos-config
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: jupyter-ui-jupyter-ui-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: jupyter-ui
+        serviceAccountName: jupyter-ui
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: spawner_ui_config.yaml
+              path: spawner_ui_config.yaml
+            name: jupyter-ui-config-config
+          name: jupyter-ui-config-config
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: jupyter-icon.svg
+              path: jupyter-icon.svg
+            - key: jupyterlab-logo.svg
+              path: jupyterlab-logo.svg
+            - key: group-two-icon.svg
+              path: group-two-icon.svg
+            - key: group-two-logo.svg
+              path: group-two-logo.svg
+            - key: group-one-icon.svg
+              path: group-one-icon.svg
+            - key: group-one-logo.svg
+              path: group-one-logo.svg
+            name: jupyter-ui-logos-config
+          name: jupyter-ui-logos-config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:44:46Z"
+      lastUpdateTime: "2022-05-30T05:44:46Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:44:46Z"
+      lastUpdateTime: "2022-05-30T05:44:46Z"
+      message: ReplicaSet "jupyter-ui-5f467445c6" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 6
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: 9b329a06
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:27:59Z"
+    generation: 5
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: kfp-api
+    name: kfp-api
+    namespace: kubeflow
+    resourceVersion: "938639"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/kfp-api
+    uid: 9d41e3c4-437e-44f9-b36f-03aec67530e1
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: kfp-api
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: kfp-api-
+        labels:
+          app.kubernetes.io/name: kfp-api
+      spec:
+        containers:
+        - env:
+          - name: POD_NAMESPACE
+            value: kubeflow
+          image: registry.jujucharms.com/charm/6dmow0tt4o9ss0keyowwkifpww9nhegg6exlj/oci-image@sha256:81e784a137925307ad8ffc95e3b6134f1cb681f0aeb151aff4873fd759491129
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+              - wget
+              - -q
+              - -S
+              - -O
+              - '-'
+              - http://localhost:8888/apis/v1beta1/healthz
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: ml-pipeline-api-server
+          ports:
+          - containerPort: 8888
+            name: http
+            protocol: TCP
+          - containerPort: 8887
+            name: grpc
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - wget
+              - -q
+              - -S
+              - -O
+              - '-'
+              - http://localhost:8888/apis/v1beta1/healthz
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+          - mountPath: /config
+            name: kfp-api-config-config
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: kfp-api-ml-pipeline-api-server-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: kfp-api
+        serviceAccountName: kfp-api
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: config.json
+              path: config.json
+            - key: sample_config.json
+              path: sample_config.json
+            name: kfp-api-config-config
+          name: kfp-api-config-config
+  status:
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:28:00Z"
+      lastUpdateTime: "2022-05-30T05:28:00Z"
+      message: Deployment does not have minimum availability.
+      reason: MinimumReplicasUnavailable
+      status: "False"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:38:03Z"
+      lastUpdateTime: "2022-05-30T05:38:03Z"
+      message: ReplicaSet "kfp-api-7b76bb6559" has timed out progressing.
+      reason: ProgressDeadlineExceeded
+      status: "False"
+      type: Progressing
+    observedGeneration: 5
+    replicas: 1
+    unavailableReplicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: 96dd7af3
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:13:33Z"
+    generation: 10
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: istio-pilot
+    name: istio-pilot
+    namespace: kubeflow
+    resourceVersion: "938676"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/istio-pilot
+    uid: 1e525cee-9371-4d42-847d-ddafab08a6bb
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: istio-pilot
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: istio-pilot-
+        labels:
+          app.kubernetes.io/name: istio-pilot
+      spec:
+        containers:
+        - args:
+          - discovery
+          - --monitoringAddr=:15014
+          - --log_output_level=all:debug
+          - --domain=cluster.local
+          - --secureGrpcAddr=:15011
+          - --trust-domain=cluster.local
+          - --keepaliveMaxServerConnectionAge=30m
+          - --disable-install-crds=true
+          env:
+          - name: CONFIG_NAMESPACE
+            value: istio-config
+          - name: INJECTION_WEBHOOK_CONFIG_NAME
+            value: kubeflow-sidecar-injector
+          - name: ISTIOD_ADDR
+            value: istio-pilot.kubeflow.svc:15012
+          - name: JWT_POLICY
+            value: first-party-jwt
+          - name: PILOT_CERT_PROVIDER
+            value: istiod
+          - name: PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND
+            value: "false"
+          - name: PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_OUTBOUND
+            value: "true"
+          - name: PILOT_EXTERNAL_GALLEY
+            value: "false"
+          - name: PILOT_TRACE_SAMPLING
+            value: "1"
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            value: kubeflow
+          - name: SERVICE_ACCOUNT
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.serviceAccountName
+          image: registry.jujucharms.com/charm/404f9ls3gzyj75jzb09josyptufkaoky4zqy7/oci-image@sha256:87fc646ea18944b942aaadc716b418d99d02e0d5d71b2453ac4dbc5053ef822c
+          imagePullPolicy: IfNotPresent
+          name: discovery
+          ports:
+          - containerPort: 8080
+            name: debug
+            protocol: TCP
+          - containerPort: 15010
+            name: grpc-xds
+            protocol: TCP
+          - containerPort: 15012
+            name: xds
+            protocol: TCP
+          - containerPort: 15017
+            name: webhook
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ready
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+          - mountPath: /etc/istio/config
+            name: istio-pilot-config-volume-config
+          - mountPath: /var/run/secrets/istio-dns
+            name: local-certs
+          - mountPath: /var/lib/istio/inject
+            name: istio-pilot-inject-config
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: istio-pilot-discovery-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: istio-pilot
+        serviceAccountName: istio-pilot
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: mesh
+              path: mesh
+            - key: meshNetworks
+              path: meshNetworks
+            - key: values.yaml
+              path: values.yaml
+            name: istio-pilot-config-volume-config
+          name: istio-pilot-config-volume-config
+        - emptyDir:
+            medium: Memory
+          name: local-certs
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: config
+              path: config
+            - key: values
+              path: values
+            name: istio-pilot-inject-config
+          name: istio-pilot-inject-config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:36:46Z"
+      lastUpdateTime: "2022-05-30T05:36:46Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:36:46Z"
+      lastUpdateTime: "2022-05-30T05:36:46Z"
+      message: ReplicaSet "istio-pilot-5464d78946" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 10
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: d74e8bf0
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:24:16Z"
+    generation: 6
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: kubeflow-profiles
+    name: kubeflow-profiles
+    namespace: kubeflow
+    resourceVersion: "938689"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/kubeflow-profiles
+    uid: 57871771-e842-463d-88db-46e23b0695d7
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: kubeflow-profiles
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: kubeflow-profiles-
+        labels:
+          app.kubernetes.io/name: kubeflow-profiles
+      spec:
+        containers:
+        - args:
+          - -userid-header
+          - kubeflow-userid
+          - -userid-prefix
+          - ""
+          - -workload-identity
+          - ""
+          command:
+          - /manager
+          image: registry.jujucharms.com/charm/4jn95wlrsfo1po9wfuy1o9eysk6tfrp3f3uu8/profile-image@sha256:f4450cf4c2cd5bc732640209d85c114a7d311f3ca2d8b5c4aaf9ead8b2ae3a22
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /metrics
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: kubeflow-profiles
+          ports:
+          - containerPort: 8080
+            name: manager
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+          - mountPath: /etc/profile-controller
+            name: namespace-labels-data
+        - args:
+          - -cluster-admin
+          - admin
+          - -userid-header
+          - kubeflow-userid
+          - -userid-prefix
+          - ""
+          command:
+          - /access-management
+          image: registry.jujucharms.com/charm/4jn95wlrsfo1po9wfuy1o9eysk6tfrp3f3uu8/kfam-image@sha256:144c8100a1c647a8350a378b45f7c14def896194927b6bdf481f97f1bd2844ab
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /metrics
+              port: 8081
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: kubeflow-kfam
+          ports:
+          - containerPort: 8081
+            name: http
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: kubeflow-profiles-kubeflow-profiles-secret
+        - name: kubeflow-profiles-kubeflow-kfam-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: kubeflow-profiles
+        serviceAccountName: kubeflow-profiles
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: namespace-labels.yaml
+              path: namespace-labels.yaml
+            name: namespace-labels-data
+          name: namespace-labels-data
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T06:22:00Z"
+      lastUpdateTime: "2022-05-30T06:22:00Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T06:22:00Z"
+      lastUpdateTime: "2022-05-30T06:22:00Z"
+      message: ReplicaSet "kubeflow-profiles-7d7d49ccc4" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 6
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: e2ff159b
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:22:09Z"
+    generation: 7
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: katib-controller
+    name: katib-controller
+    namespace: kubeflow
+    resourceVersion: "938700"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/katib-controller
+    uid: cc9eb19a-8605-4e5c-80ea-d13455341627
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: katib-controller
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: katib-controller-
+        labels:
+          app.kubernetes.io/name: katib-controller
+      spec:
+        containers:
+        - args:
+          - --webhook-port=443
+          - --trial-resources=Job.v1.batch
+          - --trial-resources=TFJob.v1.kubeflow.org
+          - --trial-resources=PyTorchJob.v1.kubeflow.org
+          - --trial-resources=MPIJob.v1.kubeflow.org
+          - --trial-resources=PipelineRun.v1beta1.tekton.dev
+          command:
+          - ./katib-controller
+          env:
+          - name: KATIB_CORE_NAMESPACE
+            value: kubeflow
+          image: registry.jujucharms.com/charm/3fmkpe8hdk6uwmdvuga521r2z95vdr4xeilz9/oci-image@sha256:d8f2376b42f2529fb9d3c10cbfaf1b2a7311942a4821131a3f1d43fcc10ab27f
+          imagePullPolicy: IfNotPresent
+          name: katib-controller
+          ports:
+          - containerPort: 443
+            name: webhook
+            protocol: TCP
+          - containerPort: 8080
+            name: metrics
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+          - mountPath: /tmp/cert
+            name: katib-controller-certs-config
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: katib-controller-katib-controller-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: katib-controller
+        serviceAccountName: katib-controller
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: tls.crt
+              path: tls.crt
+            - key: tls.key
+              path: tls.key
+            name: katib-controller-certs-config
+          name: katib-controller-certs-config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T05:37:37Z"
+      lastUpdateTime: "2022-05-30T05:37:37Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T05:37:37Z"
+      lastUpdateTime: "2022-05-30T05:37:37Z"
+      message: ReplicaSet "katib-controller-7488c9d4d6" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 7
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: f27b71ee
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "3"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:29:47Z"
+    generation: 6
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: oidc-gatekeeper
+    name: oidc-gatekeeper
+    namespace: kubeflow
+    resourceVersion: "938732"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/oidc-gatekeeper
+    uid: 886a9606-05f5-4776-9349-e7f5ccf60c9d
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: oidc-gatekeeper
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: oidc-gatekeeper-
+        labels:
+          app.kubernetes.io/name: oidc-gatekeeper
+      spec:
+        containers:
+        - env:
+          - name: AUTHSERVICE_URL_PREFIX
+            value: /authservice/
+          - name: CLIENT_ID
+            value: authservice-oidc
+          - name: CLIENT_SECRET
+            value: 8C8RILPA9X4B5DT5S4EVGIMM0XO2T7
+          - name: DISABLE_USERINFO
+            value: "true"
+          - name: OIDC_PROVIDER
+            value: http://10.152.183.8.nip.io/dex
+          - name: OIDC_SCOPES
+            value: profile email groups
+          - name: SERVER_PORT
+            value: "8080"
+          - name: SESSION_STORE_PATH
+            value: bolt.db
+          - name: SKIP_AUTH_URLS
+            value: /dex/
+          - name: USERID_HEADER
+            value: kubeflow-userid
+          - name: USERID_PREFIX
+          image: registry.jujucharms.com/charm/8msvfykzw1otf8kg225c5eqctq3fcppryljdq/oci-image@sha256:4e7f8ddd122c2f02dee29c14fd05ffd620686549f71795740b69f112a8cde6a6
+          imagePullPolicy: IfNotPresent
+          name: oidc-gatekeeper
+          ports:
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: oidc-gatekeeper-oidc-gatekeeper-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T07:05:06Z"
+      lastUpdateTime: "2022-05-30T07:05:06Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T06:11:45Z"
+      lastUpdateTime: "2022-05-30T07:05:08Z"
+      message: ReplicaSet "oidc-gatekeeper-77dd9978d4" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 6
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"k8s-app":"metrics-server"},"name":"metrics-server","namespace":"kube-system"},"spec":{"selector":{"matchLabels":{"k8s-app":"metrics-server"}},"template":{"metadata":{"labels":{"k8s-app":"metrics-server"},"name":"metrics-server"},"spec":{"containers":[{"args":["--cert-dir=/tmp","--secure-port=4443","--kubelet-insecure-tls","--kubelet-preferred-address-types=InternalIP"],"image":"k8s.gcr.io/metrics-server-amd64:v0.3.6","imagePullPolicy":"IfNotPresent","name":"metrics-server","ports":[{"containerPort":4443,"name":"main-port","protocol":"TCP"}],"securityContext":{"readOnlyRootFilesystem":true,"runAsNonRoot":true,"runAsUser":1000},"volumeMounts":[{"mountPath":"/tmp","name":"tmp-dir"}]}],"nodeSelector":{"kubernetes.io/arch":"amd64","kubernetes.io/os":"linux"},"serviceAccountName":"metrics-server","volumes":[{"emptyDir":{},"name":"tmp-dir"}]}}}}
+    creationTimestamp: "2022-05-30T07:06:42Z"
+    generation: 1
+    labels:
+      k8s-app: metrics-server
+    name: metrics-server
+    namespace: kube-system
+    resourceVersion: "940349"
+    selfLink: /apis/apps/v1/namespaces/kube-system/deployments/metrics-server
+    uid: 031b2a02-03cc-4f88-86df-75f2d135c34f
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        k8s-app: metrics-server
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          k8s-app: metrics-server
+        name: metrics-server
+      spec:
+        containers:
+        - args:
+          - --cert-dir=/tmp
+          - --secure-port=4443
+          - --kubelet-insecure-tls
+          - --kubelet-preferred-address-types=InternalIP
+          image: k8s.gcr.io/metrics-server-amd64:v0.3.6
+          imagePullPolicy: IfNotPresent
+          name: metrics-server
+          ports:
+          - containerPort: 4443
+            name: main-port
+            protocol: TCP
+          resources: {}
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /tmp
+            name: tmp-dir
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/arch: amd64
+          kubernetes.io/os: linux
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: metrics-server
+        serviceAccountName: metrics-server
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: tmp-dir
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T07:13:40Z"
+      lastUpdateTime: "2022-05-30T07:13:40Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T07:06:42Z"
+      lastUpdateTime: "2022-05-30T07:13:40Z"
+      message: ReplicaSet "metrics-server-8bbfb4bdb" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"k8s-app":"kubernetes-dashboard"},"name":"kubernetes-dashboard","namespace":"kube-system"},"spec":{"replicas":1,"revisionHistoryLimit":10,"selector":{"matchLabels":{"k8s-app":"kubernetes-dashboard"}},"template":{"metadata":{"labels":{"k8s-app":"kubernetes-dashboard"}},"spec":{"containers":[{"args":["--auto-generate-certificates","--namespace=kube-system"],"image":"kubernetesui/dashboard:v2.0.0","imagePullPolicy":"IfNotPresent","livenessProbe":{"httpGet":{"path":"/","port":8443,"scheme":"HTTPS"},"initialDelaySeconds":30,"timeoutSeconds":30},"name":"kubernetes-dashboard","ports":[{"containerPort":8443,"protocol":"TCP"}],"securityContext":{"allowPrivilegeEscalation":false,"readOnlyRootFilesystem":true,"runAsGroup":2001,"runAsUser":1001},"volumeMounts":[{"mountPath":"/certs","name":"kubernetes-dashboard-certs"},{"mountPath":"/tmp","name":"tmp-volume"}]}],"nodeSelector":{"beta.kubernetes.io/os":"linux"},"serviceAccountName":"kubernetes-dashboard","tolerations":[{"effect":"NoSchedule","key":"node-role.kubernetes.io/master"}],"volumes":[{"name":"kubernetes-dashboard-certs","secret":{"secretName":"kubernetes-dashboard-certs"}},{"emptyDir":{},"name":"tmp-volume"}]}}}}
+    creationTimestamp: "2022-05-30T07:09:09Z"
+    generation: 1
+    labels:
+      k8s-app: kubernetes-dashboard
+    name: kubernetes-dashboard
+    namespace: kube-system
+    resourceVersion: "941661"
+    selfLink: /apis/apps/v1/namespaces/kube-system/deployments/kubernetes-dashboard
+    uid: 28868bae-aca2-4b01-89c1-b6dfbec90190
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        k8s-app: kubernetes-dashboard
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          k8s-app: kubernetes-dashboard
+      spec:
+        containers:
+        - args:
+          - --auto-generate-certificates
+          - --namespace=kube-system
+          image: kubernetesui/dashboard:v2.0.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8443
+              scheme: HTTPS
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 30
+          name: kubernetes-dashboard
+          ports:
+          - containerPort: 8443
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsGroup: 2001
+            runAsUser: 1001
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /certs
+            name: kubernetes-dashboard-certs
+          - mountPath: /tmp
+            name: tmp-volume
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          beta.kubernetes.io/os: linux
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: kubernetes-dashboard
+        serviceAccountName: kubernetes-dashboard
+        terminationGracePeriodSeconds: 30
+        tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+        volumes:
+        - name: kubernetes-dashboard-certs
+          secret:
+            defaultMode: 420
+            secretName: kubernetes-dashboard-certs
+        - emptyDir: {}
+          name: tmp-volume
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T07:21:12Z"
+      lastUpdateTime: "2022-05-30T07:21:12Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T07:21:12Z"
+      lastUpdateTime: "2022-05-30T07:21:12Z"
+      message: ReplicaSet "kubernetes-dashboard-85fd7f45cb" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"k8s-app":"dashboard-metrics-scraper"},"name":"dashboard-metrics-scraper","namespace":"kube-system"},"spec":{"replicas":1,"revisionHistoryLimit":10,"selector":{"matchLabels":{"k8s-app":"dashboard-metrics-scraper"}},"template":{"metadata":{"labels":{"k8s-app":"dashboard-metrics-scraper"}},"spec":{"containers":[{"image":"kubernetesui/metrics-scraper:v1.0.4","livenessProbe":{"httpGet":{"path":"/","port":8000,"scheme":"HTTP"},"initialDelaySeconds":30,"timeoutSeconds":30},"name":"dashboard-metrics-scraper","ports":[{"containerPort":8000,"protocol":"TCP"}],"securityContext":{"allowPrivilegeEscalation":false,"readOnlyRootFilesystem":true,"runAsGroup":2001,"runAsUser":1001},"volumeMounts":[{"mountPath":"/tmp","name":"tmp-volume"}]}],"nodeSelector":{"beta.kubernetes.io/os":"linux"},"serviceAccountName":"kubernetes-dashboard","tolerations":[{"effect":"NoSchedule","key":"node-role.kubernetes.io/master"}],"volumes":[{"emptyDir":{},"name":"tmp-volume"}]}}}}
+    creationTimestamp: "2022-05-30T07:09:09Z"
+    generation: 1
+    labels:
+      k8s-app: dashboard-metrics-scraper
+    name: dashboard-metrics-scraper
+    namespace: kube-system
+    resourceVersion: "941769"
+    selfLink: /apis/apps/v1/namespaces/kube-system/deployments/dashboard-metrics-scraper
+    uid: 858c9adc-38c3-4ab0-a79a-c4b820a0c44a
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        k8s-app: dashboard-metrics-scraper
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          k8s-app: dashboard-metrics-scraper
+      spec:
+        containers:
+        - image: kubernetesui/metrics-scraper:v1.0.4
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 30
+          name: dashboard-metrics-scraper
+          ports:
+          - containerPort: 8000
+            protocol: TCP
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsGroup: 2001
+            runAsUser: 1001
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /tmp
+            name: tmp-volume
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          beta.kubernetes.io/os: linux
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: kubernetes-dashboard
+        serviceAccountName: kubernetes-dashboard
+        terminationGracePeriodSeconds: 30
+        tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+        volumes:
+        - emptyDir: {}
+          name: tmp-volume
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T07:21:47Z"
+      lastUpdateTime: "2022-05-30T07:21:47Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T07:21:47Z"
+      lastUpdateTime: "2022-05-30T07:21:47Z"
+      message: ReplicaSet "dashboard-metrics-scraper-78d7698477" has successfully
+        progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: gpu-operator
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2022-05-30T07:12:08Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/component: gpu-operator
+      app.kubernetes.io/managed-by: Helm
+    name: gpu-operator
+    namespace: default
+    resourceVersion: "944103"
+    selfLink: /apis/apps/v1/namespaces/default/deployments/gpu-operator
+    uid: 3ced24dd-dd07-4062-958f-0b4bda5062d6
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: gpu-operator
+        app.kubernetes.io/component: gpu-operator
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          openshift.io/scc: restricted-readonly
+        creationTimestamp: null
+        labels:
+          app: gpu-operator
+          app.kubernetes.io/component: gpu-operator
+      spec:
+        affinity:
+          nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - preference:
+                matchExpressions:
+                - key: node-role.kubernetes.io/master
+                  operator: In
+                  values:
+                  - ""
+              weight: 1
+        containers:
+        - args:
+          - --leader-elect
+          command:
+          - gpu-operator
+          env:
+          - name: WATCH_NAMESPACE
+          - name: OPERATOR_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          image: nvcr.io/nvidia/gpu-operator:v1.10.1
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 8081
+              scheme: HTTP
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: gpu-operator
+          ports:
+          - containerPort: 8080
+            name: metrics
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /readyz
+              port: 8081
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 350Mi
+            requests:
+              cpu: 200m
+              memory: 100Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /host-etc/os-release
+            name: host-os-release
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        priorityClassName: system-node-critical
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: gpu-operator
+        serviceAccountName: gpu-operator
+        terminationGracePeriodSeconds: 30
+        tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+          operator: Equal
+        volumes:
+        - hostPath:
+            path: /etc/os-release
+            type: ""
+          name: host-os-release
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T07:35:10Z"
+      lastUpdateTime: "2022-05-30T07:35:10Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T07:35:10Z"
+      lastUpdateTime: "2022-05-30T07:35:10Z"
+      message: ReplicaSet "gpu-operator-794b8c8ddc" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: gpu-operator
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2022-05-30T07:12:08Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/instance: gpu-operator
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: node-feature-discovery
+      app.kubernetes.io/version: v0.10.1
+      helm.sh/chart: node-feature-discovery-0.10.1
+      role: master
+    name: gpu-operator-node-feature-discovery-master
+    namespace: default
+    resourceVersion: "944111"
+    selfLink: /apis/apps/v1/namespaces/default/deployments/gpu-operator-node-feature-discovery-master
+    uid: 9818dc45-86a1-448e-a6ef-1e5d11050446
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/instance: gpu-operator
+        app.kubernetes.io/name: node-feature-discovery
+        role: master
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/instance: gpu-operator
+          app.kubernetes.io/name: node-feature-discovery
+          role: master
+      spec:
+        affinity:
+          nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - preference:
+                matchExpressions:
+                - key: node-role.kubernetes.io/master
+                  operator: In
+                  values:
+                  - ""
+              weight: 1
+            - preference:
+                matchExpressions:
+                - key: node-role.kubernetes.io/control-plane
+                  operator: In
+                  values:
+                  - ""
+              weight: 1
+        containers:
+        - args:
+          - --extra-label-ns=nvidia.com
+          - -featurerules-controller=true
+          command:
+          - nfd-master
+          env:
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          image: k8s.gcr.io/nfd/node-feature-discovery:v0.10.1
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+              - /usr/bin/grpc_health_probe
+              - -addr=:8080
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: master
+          ports:
+          - containerPort: 8080
+            name: grpc
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - /usr/bin/grpc_health_probe
+              - -addr=:8080
+            failureThreshold: 10
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: gpu-operator-node-feature-discovery
+        serviceAccountName: gpu-operator-node-feature-discovery
+        terminationGracePeriodSeconds: 30
+        tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+          operator: Equal
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/control-plane
+          operator: Equal
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2022-05-30T07:35:10Z"
+      lastUpdateTime: "2022-05-30T07:35:10Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2022-05-30T07:35:10Z"
+      lastUpdateTime: "2022-05-30T07:35:10Z"
+      message: ReplicaSet "gpu-operator-node-feature-discovery-master-57f77d46f9"
+        has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      app.juju.is/uuid: f177ab55
+      charm.juju.is/modified-version: "0"
+      controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+      deployment.kubernetes.io/revision: "1"
+      model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+    creationTimestamp: "2022-05-30T05:27:29Z"
+    generation: 5
+    labels:
+      app.kubernetes.io/managed-by: juju
+      app.kubernetes.io/name: kfp-persistence
+    name: kfp-persistence
+    namespace: kubeflow
+    resourceVersion: "973131"
+    selfLink: /apis/apps/v1/namespaces/kubeflow/deployments/kfp-persistence
+    uid: e4bfda1f-5af8-4d12-abcf-28ef4ed60ea6
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: kfp-persistence
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          apparmor.security.beta.kubernetes.io/pod: runtime/default
+          charm.juju.is/modified-version: "0"
+          controller.juju.is/id: ae0e16a7-f10b-41e9-8f64-35346b6c91dd
+          model.juju.is/id: a6f5b73a-cb38-42cd-8f8e-36aced0c1bbd
+          seccomp.security.beta.kubernetes.io/pod: docker/default
+        creationTimestamp: null
+        generateName: kfp-persistence-
+        labels:
+          app.kubernetes.io/name: kfp-persistence
+      spec:
+        containers:
+        - command:
+          - persistence_agent
+          - --logtostderr=true
+          - --namespace=
+          - --ttlSecondsAfterWorkflowFinish=86400
+          - --numWorker=2
+          - --mlPipelineAPIServerName=kfp-api.kubeflow
+          image: registry.jujucharms.com/charm/530iqpar7ey6vmhy5v19z5dnqywn1439aqet2/oci-image@sha256:1012943122e9ffc3eca4b9c54b2259d85a71a617ea14dff6a1ebf6fc6b91580b
+          imagePullPolicy: IfNotPresent
+          name: ml-pipeline-persistenceagent
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          - mountPath: /usr/bin/juju-run
+            name: juju-data-dir
+            subPath: tools/jujud
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: kfp-persistence-ml-pipeline-persistenceagent-secret
+        initContainers:
+        - args:
+          - -c
+          - |
+            export JUJU_DATA_DIR=/var/lib/juju
+            export JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools
+
+            mkdir -p $JUJU_TOOLS_DIR
+            cp /opt/jujud $JUJU_TOOLS_DIR/jujud
+
+            initCmd=$($JUJU_TOOLS_DIR/jujud help commands | grep caas-unit-init)
+            if test -n "$initCmd"; then
+            $JUJU_TOOLS_DIR/jujud caas-unit-init --debug --wait;
+            else
+            exit 0
+            fi
+          command:
+          - /bin/sh
+          image: jujusolutions/jujud-operator:2.9.29
+          imagePullPolicy: IfNotPresent
+          name: juju-pod-init
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/juju
+            name: juju-data-dir
+          workingDir: /var/lib/juju
+        nodeSelector:
+          kubernetes.io/arch: amd64
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: kfp-persistence
+        serviceAccountName: kfp-persistence
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: juju-data-dir
+  status:
+    conditions:
+    - lastTransitionTime: "2022-05-30T06:06:23Z"
+      lastUpdateTime: "2022-05-30T06:06:23Z"
+      message: ReplicaSet "kfp-persistence-6cdc76456d" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2022-05-30T09:41:31Z"
+      lastUpdateTime: "2022-05-30T09:41:31Z"
+      message: Deployment does not have minimum availability.
+      reason: MinimumReplicasUnavailable
+      status: "False"
+      type: Available
+    observedGeneration: 5
+    replicas: 1
+    unavailableReplicas: 1
+    updatedReplicas: 1
+kind: List
+metadata:
+  resourceVersion: ""
